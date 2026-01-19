@@ -71,7 +71,8 @@ export const addVideo = async (req, res) => {
   }
 };
 
-// ✅ Remove Video
+
+// ✅ Remove Video (FIXED)
 export const removeVideo = async (req, res) => {
   try {
     const { collectionId, videoId } = req.params;
@@ -81,13 +82,24 @@ export const removeVideo = async (req, res) => {
       return res.status(404).json({ message: "Collection not found" });
     }
 
+    const initialLength = collection.videos.length;
+
     collection.videos = collection.videos.filter(
-      (v) => v.videoId !== videoId
+      (v) => v && v._id.toString() !== videoId
     );
 
+    if (collection.videos.length === initialLength) {
+      return res.status(404).json({ message: "Video not found in collection" });
+    }
+
     await collection.save();
-    res.json(collection);
+    res.json({
+      message: "Video removed successfully",
+      collection,
+    });
   } catch (error) {
+    console.error("Remove video error:", error);
     res.status(500).json({ message: error.message });
   }
 };
+
