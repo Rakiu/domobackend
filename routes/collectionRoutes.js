@@ -10,7 +10,7 @@ import {
 const router = express.Router();
 
 router.post("/", auth, createCollection);
-router.get("/", auth, getCollections);
+router.get("/",  getCollections);
 router.post("/:collectionId/videos", auth, addVideo);
 router.delete("/:collectionId/videos/:videoId", auth, removeVideo);
 
