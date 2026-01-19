@@ -72,7 +72,7 @@ export const addVideo = async (req, res) => {
 };
 
 
-// ✅ Remove Video (FIXED)
+// ✅ Remove Video by YouTube videoId (FIXED)
 export const removeVideo = async (req, res) => {
   try {
     const { collectionId, videoId } = req.params;
@@ -84,8 +84,9 @@ export const removeVideo = async (req, res) => {
 
     const initialLength = collection.videos.length;
 
+    // 🔥 FIX: delete by videoId (abc1234)
     collection.videos = collection.videos.filter(
-      (v) => v && v._id.toString() !== videoId
+      (v) => v.videoId !== videoId
     );
 
     if (collection.videos.length === initialLength) {
@@ -93,7 +94,8 @@ export const removeVideo = async (req, res) => {
     }
 
     await collection.save();
-    res.json({
+
+    res.status(200).json({
       message: "Video removed successfully",
       collection,
     });
