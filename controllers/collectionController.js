@@ -23,7 +23,7 @@ export const getCollections = async (req, res) => {
   }
 };
 
-// ✅ Add Video (Thumbnail + Video upload)
+// ✅ Add Video 
 export const addVideo = async (req, res) => {
   try {
     const { collectionId } = req.params;
@@ -44,7 +44,7 @@ export const addVideo = async (req, res) => {
       { folder: "thumbnails" }
     );
 
-    // 🔹 Video Upload (optional)
+    // 🔹 Video Upload 
     let videoUrl = "";
     if (req.files?.video) {
       const videoUpload = await cloudinary.uploader.upload(
@@ -72,7 +72,7 @@ export const addVideo = async (req, res) => {
 };
 
 
-// ✅ Remove Video by YouTube videoId (FIXED)
+// ✅ Remove Video 
 export const removeVideo = async (req, res) => {
   try {
     const { collectionId, videoId } = req.params;
@@ -84,7 +84,7 @@ export const removeVideo = async (req, res) => {
 
     const initialLength = collection.videos.length;
 
-    // 🔥 FIX: delete by videoId (abc1234)
+    
     collection.videos = collection.videos.filter(
       (v) => v.videoId !== videoId
     );
